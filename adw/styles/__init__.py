@@ -41,6 +41,13 @@ from .spacing import (
     get_xxl
 )
 
+from .breakpoints import (
+    Breakpoint,
+    BreakpointManager,
+    get_breakpoint_value,
+    get_media_query
+)
+
 from .theme import (
     ThemeManager,
     ThemeSettings,
@@ -84,6 +91,12 @@ __all__ = [
     'get_lg',
     'get_xl',
     'get_xxl',
+    
+    # Breakpoints
+    'Breakpoint',
+    'BreakpointManager',
+    'get_breakpoint_value',
+    'get_media_query',
     
     # Theme
     'ThemeManager',

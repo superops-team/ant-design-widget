@@ -79,6 +79,29 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica N
 - **超大间距**: 32px
 - **巨大间距**: 48px
 
+## 响应式断点系统
+
+### 断点定义
+
+```python
+class Breakpoint:
+    XS = 'xs'      # <576px
+    SM = 'sm'      # ≥576px
+    MD = 'md'      # ≥768px
+    LG = 'lg'      # ≥992px
+    XL = 'xl'      # ≥1200px
+    XXL = 'xxl'    # ≥1600px
+```
+
+### 断点值
+
+- **XS**: 575px
+- **SM**: 576px
+- **MD**: 768px
+- **LG**: 992px
+- **XL**: 1200px
+- **XXL**: 1600px
+
 ## 主题系统
 
 支持亮色和暗色主题切换：
@@ -132,4 +155,13 @@ from adw.styles.spacing import Spacing
 medium_spacing = Spacing.get_medium()
 # 获取自定义间距
 custom_spacing = Spacing.get_spacing(2)  # 16px
+```
+
+### 响应式断点使用
+
+```python
+from adw.styles.breakpoints import Breakpoint
+
+# 获取断点值
+md_breakpoint = Breakpoint.VALUES[Breakpoint.MD]  # 768
 ```
