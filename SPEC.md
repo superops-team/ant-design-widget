@@ -33,10 +33,14 @@ Ant Design Widget (ADW) 是一个基于 Ant Design 设计语言的 Python GUI �
 - 依赖声明在 `requirements.txt` 文件中
 
 ### 2.4 开发工具
+
+要求遵守开发规范，生成代码后需进行 lint 检查并修复错误
+
 - IDE: 推荐使用 VSCode 或 PyCharm
 - 代码格式化: black
 - 代码检查: flake8
 - 类型检查: mypy
+
 
 ## 3. 目录结构规划
 
