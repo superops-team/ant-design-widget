@@ -120,6 +120,28 @@ icon_btn = Button(icon="search")
 icon_text_btn = Button(text="Search", icon="search")
 ```
 
+### 主题支持
+
+Button 组件支持 Ant Design 的主题系统，可以自动适应亮色和暗色主题：
+
+```python
+from adw.styles.theme import set_theme, ThemeType
+
+# 切换到暗色主题
+set_theme(ThemeType.DARK)
+
+# 切换到亮色主题
+set_theme(ThemeType.LIGHT)
+```
+
+## 样式系统集成
+
+Button 组件完全基于 ADW 样式系统实现：
+- 使用 `ColorPalette` 进行颜色管理
+- 使用 `Typography` 进行字体管理
+- 使用 `Spacing` 进行间距管理
+- 支持主题切换
+
 ## 注意事项
 
 1. 当按钮包含两个中文字符时，会在字符之间自动添加空格（排除 Text 按钮和 Link 按钮）

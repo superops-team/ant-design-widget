@@ -5,8 +5,14 @@ Button 组件示例
 """
 
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel
+from adw.styles.theme import ThemeManager, ThemeType
 from adw.components.widgets.button import Button
+
+# 动态导入 PySide6 或 PyQt6
+try:
+    from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel
+except ImportError:
+    from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel
 
 class ButtonExample(QWidget):
     def __init__(self):
@@ -77,9 +83,26 @@ class ButtonExample(QWidget):
         chinese_layout.addWidget(Button("提交", type="primary"))
         layout.addLayout(chinese_layout)
         
+        # 主题切换按钮
+        theme_button = Button("切换到暗色主题")
+        theme_button.clicked_signal.connect(self.toggle_theme)
+        layout.addWidget(theme_button)
+        
         self.setLayout(layout)
         self.setWindowTitle("Ant Design Button 示例")
         self.resize(600, 400)
+
+    def toggle_theme(self):
+        """切换主题"""
+        current_theme = ThemeManager.get_theme()
+        if current_theme == ThemeType.LIGHT:
+            ThemeManager.set_theme(ThemeType.DARK)
+            self.sender().set_text("切换到亮色主题")
+        else:
+            ThemeManager.set_theme(ThemeType.LIGHT)
+            self.sender().set_text("切换到暗色主题")
+        # 重新应用样式
+        self.setStyleSheet("")
 
 def main():
     app = QApplication(sys.argv)

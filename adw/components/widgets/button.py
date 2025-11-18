@@ -5,6 +5,9 @@ Ant Design 风格的 Button 组件
 """
 
 from typing import Optional, Callable, Union
+from adw.styles.colors import ColorPalette, ThemeType
+from adw.styles.typography import Typography, TypographyScale
+from adw.styles.spacing import Spacing
 
 # 动态导入 PySide6 或 PyQt6
 try:
@@ -20,6 +23,7 @@ except ImportError:
         Signal = pyqtSignal
     except ImportError:
         raise ImportError("Requires either PySide6 or PyQt6")
+
 
 class Button(QPushButton):
     """
@@ -116,175 +120,178 @@ class Button(QPushButton):
             self.setMinimumWidth(200)  # 默认最小宽度
             
     def _update_style(self):
-        """更新按钮样式"""
+        """更新按钮样式 - 使用样式系统"""
+        # 获取当前主题设置
+        theme = ColorPalette.get_theme()
+        
         # 基础样式
-        style = """
-        QPushButton {
+        style = f"""
+        QPushButton {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            border: 1px solid #d9d9d9;
-            background-color: #fff;
-            color: rgba(0, 0, 0, 0.85);
-            padding: 4px 15px;
+            border: 1px solid {ColorPalette.get_border_color()};
+            background-color: {ColorPalette.get_card_background_color()};
+            color: {ColorPalette.get_text_color()};
+            padding: {Spacing.get_xs()}px {Spacing.get_md()}px;
             border-radius: 2px;
-        }
+        }}
         
-        QPushButton:hover {
-            border-color: #40a9ff;
-            background-color: #fff;
-            color: #40a9ff;
-        }
+        QPushButton:hover {{
+            border-color: {ColorPalette.get_primary_color(5)};
+            background-color: {ColorPalette.get_card_background_color()};
+            color: {ColorPalette.get_primary_color(5)};
+        }}
         
-        QPushButton:pressed {
-            border-color: #096dd9;
-            background-color: #e6f7ff;
-            color: #096dd9;
-        }
+        QPushButton:pressed {{
+            border-color: {ColorPalette.get_primary_color(7)};
+            background-color: {ColorPalette.get_color('blue', 1)};
+            color: {ColorPalette.get_primary_color(7)};
+        }}
         
-        QPushButton:disabled {
-            border-color: #d9d9d9;
-            background-color: #f5f5f5;
-            color: rgba(0, 0, 0, 0.25);
-        }
+        QPushButton:disabled {{
+            border-color: {ColorPalette.get_border_color()};
+            background-color: {ColorPalette.get_background_color()};
+            color: {ColorPalette.get_disabled_text_color()};
+        }}
         """
         
         # 根据类型设置样式
         if self._type == "primary":
-            style += """
-            QPushButton {
-                background-color: #1890ff;
-                border-color: #1890ff;
+            style += f"""
+            QPushButton {{
+                background-color: {ColorPalette.get_primary_color()};
+                border-color: {ColorPalette.get_primary_color()};
                 color: #fff;
-            }
+            }}
             
-            QPushButton:hover {
-                background-color: #40a9ff;
-                border-color: #40a9ff;
+            QPushButton:hover {{
+                background-color: {ColorPalette.get_primary_color(5)};
+                border-color: {ColorPalette.get_primary_color(5)};
                 color: #fff;
-            }
+            }}
             
-            QPushButton:pressed {
-                background-color: #096dd9;
-                border-color: #096dd9;
+            QPushButton:pressed {{
+                background-color: {ColorPalette.get_primary_color(7)};
+                border-color: {ColorPalette.get_primary_color(7)};
                 color: #fff;
-            }
+            }}
             
-            QPushButton:disabled {
-                background-color: #f5f5f5;
-                border-color: #d9d9d9;
-                color: rgba(0, 0, 0, 0.25);
-            }
+            QPushButton:disabled {{
+                background-color: {ColorPalette.get_background_color()};
+                border-color: {ColorPalette.get_border_color()};
+                color: {ColorPalette.get_disabled_text_color()};
+            }}
             """
             
         elif self._type == "dashed":
-            style += """
-            QPushButton {
+            style += f"""
+            QPushButton {{
                 border-style: dashed;
-                border-color: #d9d9d9;
-                background-color: #fff;
-                color: rgba(0, 0, 0, 0.85);
-            }
+                border-color: {ColorPalette.get_border_color()};
+                background-color: {ColorPalette.get_card_background_color()};
+                color: {ColorPalette.get_text_color()};
+            }}
             """
             
         elif self._type == "text":
-            style += """
-            QPushButton {
+            style += f"""
+            QPushButton {{
                 border: none;
                 background-color: transparent;
-                color: #1890ff;
-                padding: 4px 0;
-            }
+                color: {ColorPalette.get_primary_color()};
+                padding: {Spacing.get_xs()}px 0;
+            }}
             
-            QPushButton:hover {
+            QPushButton:hover {{
                 background-color: rgba(0, 0, 0, 0.018);
-                color: #40a9ff;
-            }
+                color: {ColorPalette.get_primary_color(5)};
+            }}
             
-            QPushButton:pressed {
+            QPushButton:pressed {{
                 background-color: rgba(0, 0, 0, 0.028);
-                color: #096dd9;
-            }
+                color: {ColorPalette.get_primary_color(7)};
+            }}
             
-            QPushButton:disabled {
+            QPushButton:disabled {{
                 background-color: transparent;
-                color: rgba(0, 0, 0, 0.25);
-            }
+                color: {ColorPalette.get_disabled_text_color()};
+            }}
             """
             
         elif self._type == "link":
-            style += """
-            QPushButton {
+            style += f"""
+            QPushButton {{
                 border: none;
                 background-color: transparent;
-                color: #1890ff;
-                padding: 4px 0;
+                color: {ColorPalette.get_primary_color()};
+                padding: {Spacing.get_xs()}px 0;
                 text-decoration: underline;
-            }
+            }}
             
-            QPushButton:hover {
+            QPushButton:hover {{
                 background-color: transparent;
-                color: #40a9ff;
-            }
+                color: {ColorPalette.get_primary_color(5)};
+            }}
             
-            QPushButton:pressed {
+            QPushButton:pressed {{
                 background-color: transparent;
-                color: #096dd9;
-            }
+                color: {ColorPalette.get_primary_color(7)};
+            }}
             
-            QPushButton:disabled {
+            QPushButton:disabled {{
                 background-color: transparent;
-                color: rgba(0, 0, 0, 0.25);
-            }
+                color: {ColorPalette.get_disabled_text_color()};
+            }}
             """
         
         # 危险按钮样式
         if self._danger:
             if self._type == "primary":
-                style += """
-                QPushButton {
-                    background-color: #ff4d4f;
-                    border-color: #ff4d4f;
+                style += f"""
+                QPushButton {{
+                    background-color: {ColorPalette.get_error_color()};
+                    border-color: {ColorPalette.get_error_color()};
                     color: #fff;
-                }
+                }}
                 
-                QPushButton:hover {
-                    background-color: #ff7875;
-                    border-color: #ff7875;
+                QPushButton:hover {{
+                    background-color: {ColorPalette.get_color('red', 5)};
+                    border-color: {ColorPalette.get_color('red', 5)};
                     color: #fff;
-                }
+                }}
                 
-                QPushButton:pressed {
-                    background-color: #d9363e;
-                    border-color: #d9363e;
+                QPushButton:pressed {{
+                    background-color: {ColorPalette.get_color('red', 7)};
+                    border-color: {ColorPalette.get_color('red', 7)};
                     color: #fff;
-                }
+                }}
                 
-                QPushButton:disabled {
-                    background-color: #f5f5f5;
-                    border-color: #d9d9d9;
-                    color: rgba(0, 0, 0, 0.25);
-                }
+                QPushButton:disabled {{
+                    background-color: {ColorPalette.get_background_color()};
+                    border-color: {ColorPalette.get_border_color()};
+                    color: {ColorPalette.get_disabled_text_color()};
+                }}
                 """
             else:
-                style += """
-                QPushButton {
-                    border-color: #ff4d4f;
-                    color: #ff4d4f;
-                }
+                style += f"""
+                QPushButton {{
+                    border-color: {ColorPalette.get_error_color()};
+                    color: {ColorPalette.get_error_color()};
+                }}
                 
-                QPushButton:hover {
-                    border-color: #ff7875;
-                    color: #ff7875;
-                }
+                QPushButton:hover {{
+                    border-color: {ColorPalette.get_color('red', 5)};
+                    color: {ColorPalette.get_color('red', 5)};
+                }}
                 
-                QPushButton:pressed {
-                    border-color: #d9363e;
-                    color: #d9363e;
-                }
+                QPushButton:pressed {{
+                    border-color: {ColorPalette.get_color('red', 7)};
+                    color: {ColorPalette.get_color('red', 7)};
+                }}
                 
-                QPushButton:disabled {
-                    border-color: #d9d9d9;
-                    color: rgba(0, 0, 0, 0.25);
-                }
+                QPushButton:disabled {{
+                    border-color: {ColorPalette.get_border_color()};
+                    color: {ColorPalette.get_disabled_text_color()};
+                }}
                 """
         
         # 幽灵按钮样式
@@ -296,43 +303,43 @@ class Button(QPushButton):
             """
             
             if self._type == "primary":
-                style += """
-                QPushButton {
-                    border-color: #1890ff;
-                    color: #1890ff;
-                }
+                style += f"""
+                QPushButton {{
+                    border-color: {ColorPalette.get_primary_color()};
+                    color: {ColorPalette.get_primary_color()};
+                }}
                 
-                QPushButton:hover {
-                    border-color: #40a9ff;
-                    color: #40a9ff;
+                QPushButton:hover {{
+                    border-color: {ColorPalette.get_primary_color(5)};
+                    color: {ColorPalette.get_primary_color(5)};
                     background-color: transparent;
-                }
+                }}
                 
-                QPushButton:pressed {
-                    border-color: #096dd9;
-                    color: #096dd9;
+                QPushButton:pressed {{
+                    border-color: {ColorPalette.get_primary_color(7)};
+                    color: {ColorPalette.get_primary_color(7)};
                     background-color: transparent;
-                }
+                }}
                 """
                 
             elif self._danger:
-                style += """
-                QPushButton {
-                    border-color: #ff4d4f;
-                    color: #ff4d4f;
-                }
+                style += f"""
+                QPushButton {{
+                    border-color: {ColorPalette.get_error_color()};
+                    color: {ColorPalette.get_error_color()};
+                }}
                 
-                QPushButton:hover {
-                    border-color: #ff7875;
-                    color: #ff7875;
+                QPushButton:hover {{
+                    border-color: {ColorPalette.get_color('red', 5)};
+                    color: {ColorPalette.get_color('red', 5)};
                     background-color: transparent;
-                }
+                }}
                 
-                QPushButton:pressed {
-                    border-color: #d9363e;
-                    color: #d9363e;
+                QPushButton:pressed {{
+                    border-color: {ColorPalette.get_color('red', 7)};
+                    color: {ColorPalette.get_color('red', 7)};
                     background-color: transparent;
-                }
+                }}
                 """
         
         # 加载中状态样式
@@ -346,19 +353,24 @@ class Button(QPushButton):
         self.setStyleSheet(style)
         
     def _update_size(self):
-        """更新按钮尺寸"""
+        """更新按钮尺寸 - 使用样式系统"""
+        body_font = Typography.get_body_font()
+        
         if self._size == "large":
             self.setMinimumHeight(40)
             font = self.font()
-            font.setPointSize(16)
+            font.setPointSize(body_font.size + 2)
             self.setFont(font)
         elif self._size == "small":
             self.setMinimumHeight(24)
             font = self.font()
-            font.setPointSize(12)
+            font.setPointSize(body_font.size - 2)
             self.setFont(font)
         else:  # middle/default
             self.setMinimumHeight(32)
+            font = self.font()
+            font.setPointSize(body_font.size)
+            self.setFont(font)
             
     def _update_shape(self):
         """更新按钮形状"""
